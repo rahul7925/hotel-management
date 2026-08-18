@@ -1,0 +1,213 @@
+/* =========================================
+   NAVBAR
+========================================= */
+
+.navbar {
+  width: 100%;
+  box-sizing: border-box;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.navbar-container {
+  width: 100%;
+  max-width: 1200px;
+  min-height: 64px;
+  margin: 0 auto;
+  padding: 0 24px;
+  box-sizing: border-box;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+/* =========================================
+   BRAND
+========================================= */
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  min-width: 0;
+  flex: 1 1 auto;
+
+  color: #111827;
+  text-decoration: none;
+
+  font-size: 19px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.navbar-logo {
+  flex: 0 0 auto;
+  font-size: 18px;
+}
+
+/* =========================================
+   RIGHT SIDE
+========================================= */
+
+.navbar-user-section {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+
+  flex: 0 0 auto;
+  min-width: 0;
+}
+
+.navbar-username {
+  max-width: 140px;
+
+  color: #374151;
+  font-size: 14px;
+  font-weight: 500;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* =========================================
+   LOGOUT
+========================================= */
+
+.navbar-logout {
+  flex: 0 0 auto;
+
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  color: #111827;
+
+  padding: 8px 15px;
+  border-radius: 7px;
+
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+
+  white-space: nowrap;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.15s ease;
+}
+
+.navbar-logout:hover {
+  background: #f3f4f6;
+  border-color: #9ca3af;
+}
+
+.navbar-logout:active {
+  transform: scale(0.98);
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 768px) {
+
+  .navbar-container {
+    min-height: 60px;
+    padding: 0 18px;
+    gap: 12px;
+  }
+
+  .navbar-brand {
+    font-size: 18px;
+  }
+
+  .navbar-user-section {
+    gap: 10px;
+  }
+
+  .navbar-username {
+    max-width: 100px;
+    font-size: 13px;
+  }
+
+  .navbar-logout {
+    padding: 7px 12px;
+    font-size: 12px;
+  }
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 480px) {
+
+  .navbar-container {
+    min-height: 58px;
+    padding: 0 14px;
+    gap: 8px;
+  }
+
+  .navbar-brand {
+    font-size: 17px;
+    gap: 6px;
+  }
+
+  .navbar-logo {
+    font-size: 16px;
+  }
+
+  .navbar-user-section {
+    gap: 8px;
+  }
+
+  .navbar-username {
+    max-width: 78px;
+    font-size: 12px;
+  }
+
+  .navbar-logout {
+    padding: 7px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+  }
+}
+
+
+/* =========================================
+   SMALL PHONES
+========================================= */
+
+@media (max-width: 360px) {
+
+  .navbar-container {
+    padding: 0 10px;
+    gap: 6px;
+  }
+
+  .navbar-brand {
+    font-size: 16px;
+  }
+
+  .navbar-username {
+    max-width: 60px;
+    font-size: 11px;
+  }
+
+  .navbar-logout {
+    padding: 6px 8px;
+    font-size: 11px;
+  }
+}
