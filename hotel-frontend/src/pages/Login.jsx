@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, Navigate } from "react-router-dom";
 import api from "../services/api";
 import { useAuth } from "../context/AuthContext";
 import "./Login.css";
 
 function Login() {
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login, isAuthenticated, user } = useAuth();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -15,6 +15,14 @@ function Login() {
 
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  if (isAuthenticated) {
+    if (user?.role === "admin") {
+      return <Navigate to="/admin" replace />;
+    } else {
+      return <Navigate to="/hotels" replace />;
+    }
+  }
 
   const handleChange = (e) => {
     setFormData({
@@ -35,14 +43,12 @@ function Login() {
       if (response.data.success) {
         const { token } = response.data;
 
-        // Store JWT and get decoded user
         const loggedInUser = login(token);
 
-        // Role-based navigation
         if (loggedInUser?.role === "admin") {
-          navigate("/admin");
+          navigate("/admin", { replace: true });
         } else {
-          navigate("/hotels");
+          navigate("/hotels", { replace: true });
         }
       }
     } catch (err) {
@@ -122,4 +128,3 @@ function Login() {
 }
 
 export default Login;
-

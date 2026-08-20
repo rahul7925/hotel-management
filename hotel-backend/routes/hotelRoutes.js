@@ -17,17 +17,12 @@ const authMiddleware = require("../middleware/authMiddleware");
 const { adminOnly } = require("../middleware/authMiddleware");
 const { hotelValidation } = require("../middleware/validation");
 
-
 /**
  * @swagger
  * tags:
  *   name: Hotels
  *   description: Hotel management APIs
  */
-
-// ==========================================
-// HOTEL ROUTES
-// ==========================================
 
 /**
  * @swagger
@@ -74,9 +69,7 @@ const { hotelValidation } = require("../middleware/validation");
  *       401:
  *         description: Unauthorized
  */
-// CREATE
 router.post("/", authMiddleware, adminOnly, hotelValidation, createHotel);
-
 
 /**
  * @swagger
@@ -114,10 +107,8 @@ router.post("/", authMiddleware, adminOnly, hotelValidation, createHotel);
  *       404:
  *         description: Hotel not found
  */
-// UPLOAD IMAGE
 // IMPORTANT: This must come before /:id so it's not treated as an ID
 router.post("/:id/upload", authMiddleware, adminOnly, upload.single("image"), uploadHotelImage);
-
 
 /**
  * @swagger
@@ -153,9 +144,7 @@ router.post("/:id/upload", authMiddleware, adminOnly, upload.single("image"), up
  *       200:
  *         description: Hotels retrieved successfully
  */
-// GET ALL + PRICE FILTER
 router.get("/", getAllHotels);
-
 
 /**
  * @swagger
@@ -175,11 +164,9 @@ router.get("/", getAllHotels);
  *       200:
  *         description: Search results
  */
-// SEARCH
 // IMPORTANT:
 // This must come BEFORE /:id
 router.get("/search", searchHotels);
-
 
 /**
  * @swagger
@@ -201,9 +188,7 @@ router.get("/search", searchHotels);
  *       404:
  *         description: Hotel not found
  */
-// GET SINGLE
 router.get("/:id", getHotelById);
-
 
 /**
  * @swagger
@@ -251,9 +236,7 @@ router.get("/:id", getHotelById);
  *       404:
  *         description: Hotel not found
  */
-// UPDATE
 router.put("/:id", authMiddleware, adminOnly, hotelValidation, updateHotel);
-
 
 /**
  * @swagger
@@ -279,8 +262,6 @@ router.put("/:id", authMiddleware, adminOnly, hotelValidation, updateHotel);
  *       404:
  *         description: Hotel not found
  */
-// DELETE
 router.delete("/:id", authMiddleware, adminOnly, deleteHotel);
-
 
 module.exports = router;

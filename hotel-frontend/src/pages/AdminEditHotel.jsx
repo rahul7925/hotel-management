@@ -94,7 +94,6 @@ function AdminEditHotel() {
     setError("");
 
     try {
-      // 1. Update Hotel Details
       await api.put(`/hotels/${id}`, {
         title: formData.title,
         description: formData.description,
@@ -103,7 +102,6 @@ function AdminEditHotel() {
         price: Number(formData.price),
       });
 
-      // 2. Upload New Image if selected
       if (newImage) {
         const imageData = new FormData();
         imageData.append("image", newImage);

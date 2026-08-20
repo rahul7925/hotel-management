@@ -62,7 +62,6 @@ function AddHotel() {
     setError("");
 
     try {
-      // 1. Create Hotel
       const response = await api.post("/hotels", {
         title: formData.title,
         description: formData.description,
@@ -73,7 +72,6 @@ function AddHotel() {
 
       const createdHotel = response.data.hotel;
 
-      // 2. Upload Image if selected
       if (image && createdHotel?.id) {
         const imageData = new FormData();
         imageData.append("image", image);

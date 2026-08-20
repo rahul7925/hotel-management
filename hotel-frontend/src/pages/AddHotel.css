@@ -45,6 +45,7 @@
   font-size: 34px;
   line-height: 1.2;
   font-weight: 700;
+    letter-spacing: normal;
   color: #111827;
 }
 
@@ -93,6 +94,7 @@
   margin: 0;
   font-size: 20px;
   font-weight: 650;
+    letter-spacing: normal;
   color: #111827;
 }
 
@@ -349,3 +351,4 @@
     width: 100%;
   }
 }
+

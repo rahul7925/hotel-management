@@ -1,358 +1,666 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../services/api";
 import { useAuth } from "../context/AuthContext";
-import LogoutConfirmModal from "../components/LogoutConfirmModal";
 import "./Admin.css";
 
 function Admin() {
-  const navigate = useNavigate();
   const { user, logout } = useAuth();
-  const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const navigate = useNavigate();
 
   const [hotels, setHotels] = useState([]);
-  const [userStats, setUserStats] = useState({
-    totalUsers: 0,
-    totalAdmins: 0,
-    regularUsers: 0,
-  });
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
 
-  const [hotelSearch, setHotelSearch] = useState("");
+  const [totalHotels, setTotalHotels] = useState(0);
+  const [totalUsers, setTotalUsers] = useState(0);
+
+  const [search, setSearch] = useState("");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
 
-  const [appliedMinPrice, setAppliedMinPrice] = useState("");
-  const [appliedMaxPrice, setAppliedMaxPrice] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-  const handleLogoutConfirm = () => {
-    logout();
-    navigate("/login", { replace: true });
-  };
+  const [activeSection, setActiveSection] =
+    useState("dashboard");
 
-  const loadData = async () => {
-    setLoading(true);
-    setError("");
+  /* =====================================================
+     FETCH HOTELS
+  ===================================================== */
 
+  const fetchHotels = async (options = {}) => {
     try {
-      const [hotelsRes, usersRes] = await Promise.allSettled([
-        api.get("/hotels?limit=100"),
-        api.get("/auth/users"),
-      ]);
+      setLoading(true);
+      setError("");
 
-      if (hotelsRes.status === "fulfilled") {
-        const data = hotelsRes.value.data;
-        setHotels(data.hotels || data.data || []);
-      } else {
-        setError(hotelsRes.reason?.response?.data?.message || "Failed to load hotels");
+      const params = new URLSearchParams();
+
+      const currentSearch = options.clear ? "" : search;
+      const currentMin = options.clear ? "" : minPrice;
+      const currentMax = options.clear ? "" : maxPrice;
+
+      if (currentSearch.trim()) {
+        params.append(
+          "search",
+          currentSearch.trim()
+        );
       }
 
-      if (usersRes.status === "fulfilled") {
-        const uData = usersRes.value.data;
-        setUserStats({
-          totalUsers: uData.totalUsers || 0,
-          totalAdmins: uData.totalAdmins || 0,
-          regularUsers: uData.regularUsers || 0,
-        });
-      } else {
-        setUserStats({
-          totalUsers: "Error",
-          totalAdmins: "-",
-          regularUsers: "-",
-        });
+      if (currentMin !== "") {
+        params.append(
+          "minPrice",
+          currentMin
+        );
       }
+
+      if (currentMax !== "") {
+        params.append(
+          "maxPrice",
+          currentMax
+        );
+      }
+
+      const response = await api.get(
+        `/hotels?${params.toString()}`
+      );
+
+      const data = response.data;
+
+      const hotelList =
+        data.hotels ||
+        data.data ||
+        [];
+
+      setHotels(hotelList);
+
+      setTotalHotels(
+        data.total ??
+          hotelList.length
+      );
     } catch (err) {
-      setError("Failed to load dashboard data");
+      console.error(err);
+
+      setError(
+        err.response?.data?.message ||
+          "Failed to load hotels."
+      );
+
+      setHotels([]);
     } finally {
       setLoading(false);
     }
   };
 
-  useEffect(() => {
-    loadData();
-  }, []);
+  /* =====================================================
+     FETCH USERS
+  ===================================================== */
 
-  const handleDelete = async (id, title) => {
-    const confirmed = window.confirm(
-      `Are you sure you want to delete "${title}"?`
-    );
-
-    if (!confirmed) return;
-
+  const fetchUsers = async () => {
     try {
-      await api.delete(`/hotels/${id}`);
+      const response =
+        await api.get("/auth/users");
 
-      // Remove deleted hotel immediately from UI
-      setHotels((prevHotels) =>
-        prevHotels.filter((hotel) => hotel.id !== id)
+      const data = response.data;
+
+      const users =
+        data.users ||
+        data.data ||
+        [];
+
+      setTotalUsers(
+        data.total ??
+          users.length
       );
-
-      alert("Hotel deleted successfully!");
     } catch (err) {
-      alert(
-        err.response?.data?.message ||
-        "Failed to delete hotel."
+      console.error(
+        "Failed to load users:",
+        err
       );
     }
   };
 
-  const filteredHotels = useMemo(() => {
-    return hotels.filter((hotel) => {
-      const title = String(hotel.title || "").toLowerCase();
+  /* =====================================================
+     INITIAL LOAD
+  ===================================================== */
 
-      const searchMatch = title.includes(
-        hotelSearch.trim().toLowerCase()
-      );
+  /* Double-lock back button and tab close protection */
+  useEffect(() => {
+    const handleBeforeUnload = (e) => {
+      e.preventDefault();
+      e.returnValue = "Are you sure you want to leave?";
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
 
-      const price = Number(hotel.price || 0);
+    // Push twice so that a single back button press keeps the URL identical.
+    // This prevents React Router from detecting a path change and unmounting the component.
+    window.history.pushState(null, null, window.location.href);
+    window.history.pushState(null, null, window.location.href);
 
-      const minMatch =
-        appliedMinPrice === "" ||
-        price >= Number(appliedMinPrice);
+    const handlePopState = () => {
+      const confirmed = window.confirm("Are you sure you want to close this site?\nLog out to close the site.");
+      if (confirmed) {
+        window.removeEventListener("beforeunload", handleBeforeUnload);
+        logout();
+        navigate("/login", { replace: true });
+      } else {
+        // They cancelled. Push state again to restore the buffer.
+        window.history.pushState(null, null, window.location.href);
+      }
+    };
+    
+    window.addEventListener('popstate', handlePopState);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [logout, navigate]);
 
-      const maxMatch =
-        appliedMaxPrice === "" ||
-        price <= Number(appliedMaxPrice);
+  useEffect(() => {
+    fetchHotels();
+    fetchUsers();
+  }, []);
 
-      return searchMatch && minMatch && maxMatch;
-    });
-  }, [
-    hotels,
-    hotelSearch,
-    appliedMinPrice,
-    appliedMaxPrice,
-  ]);
+  /* =====================================================
+     SEARCH
+  ===================================================== */
 
-  const handleApplyFilters = () => {
-    setAppliedMinPrice(minPrice);
-    setAppliedMaxPrice(maxPrice);
+  const handleSearch = (event) => {
+    event.preventDefault();
+
+    fetchHotels();
   };
 
-  const handleClearFilters = () => {
-    setHotelSearch("");
+  /* =====================================================
+     CLEAR FILTERS
+  ===================================================== */
+
+  const clearFilters = () => {
+    setSearch("");
     setMinPrice("");
     setMaxPrice("");
-    setAppliedMinPrice("");
-    setAppliedMaxPrice("");
+    fetchHotels({ clear: true });
+  };
+
+  /* =====================================================
+     DELETE HOTEL
+  ===================================================== */
+
+  const handleDelete = async (hotelId) => {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this hotel?"
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      await api.delete(
+        `/hotels/${hotelId}`
+      );
+
+      await fetchHotels();
+
+      alert(
+        "Hotel deleted successfully."
+      );
+    } catch (err) {
+      console.error(err);
+
+      alert(
+        err.response?.data?.message ||
+          "Failed to delete hotel."
+      );
+    }
+  };
+
+  /* =====================================================
+     LOGOUT
+  ===================================================== */
+
+  const handleLogout = () => {
+    const confirmed = window.confirm(
+      "Are you sure you want to log out?"
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    logout();
+    navigate("/login");
+  };
+
+  /* =====================================================
+     SIDEBAR - DASHBOARD
+  ===================================================== */
+
+  const handleDashboardClick = () => {
+    setActiveSection("dashboard");
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  /* =====================================================
+     SIDEBAR - HOTELS
+  ===================================================== */
+
+  const handleHotelsClick = () => {
+    setActiveSection("hotels");
+
+    setTimeout(() => {
+      document
+        .getElementById("admin-hotels")
+        ?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+    }, 50);
+  };
+
+  const getImageUrl = (image) => {
+    if (!image) return "";
+    if (image.startsWith("http://") || image.startsWith("https://")) {
+      return image;
+    }
+    return `http://localhost:5000${image}`;
   };
 
   return (
     <div className="admin-page">
 
-      {/* Top Navbar */}
-      <header className="admin-navbar">
-        <div className="admin-brand">
-          <span>HOTEL COLLECTION</span>
-        </div>
+      {/* =================================================
+          TOP NAVBAR
+      ================================================= */}
 
-        <div className="admin-user">
-          <span className="admin-name">
-            {user?.name || "Admin"}
+      <header className="admin-navbar">
+
+        <Link
+          to="/admin"
+          className="admin-brand"
+        >
+          HotelHub
+        </Link>
+
+        <div className="admin-navbar-right">
+
+          <span className="admin-role">
+            {user?.name ||
+              user?.username ||
+              "Admin"}
           </span>
-          <button className="admin-logout-btn" onClick={() => setShowLogoutModal(true)}>
+
+          <button
+            type="button"
+            className="admin-logout-btn"
+            onClick={handleLogout}
+          >
             Logout
           </button>
+
         </div>
+
       </header>
 
-      {/* Body */}
       <div className="admin-layout">
 
-        {/* Sidebar */}
         <aside className="admin-sidebar">
-          <div className="admin-sidebar-title">Management</div>
-          <nav className="admin-nav">
-            <Link to="/admin" className="active">Dashboard</Link>
+
+          <nav className="admin-sidebar-nav">
+
             <button
               type="button"
-              className="sidebar-link"
-              onClick={() => {
-                document
-                  .getElementById("admin-hotels")
-                  ?.scrollIntoView({
-                    behavior: "smooth",
-                    block: "start",
-                  });
-              }}
+              className={
+                activeSection ===
+                "dashboard"
+                  ? "active"
+                  : ""
+              }
+              onClick={
+                handleDashboardClick
+              }
+            >
+              Dashboard
+            </button>
+
+            <button
+              type="button"
+              className={
+                activeSection ===
+                "hotels"
+                  ? "active"
+                  : ""
+              }
+              onClick={
+                handleHotelsClick
+              }
             >
               Hotels
             </button>
+
           </nav>
+
         </aside>
 
-        {/* Main Content */}
         <main className="admin-main">
 
-          <div className="admin-header">
-            <div>
-              <h1>Good morning, Admin</h1>
-              <p>Here's what's happening with your hotels.</p>
-            </div>
-            <button
-              className="add-hotel-btn"
-              onClick={() => navigate("/admin/add")}
-            >
-              + Add Hotel
-            </button>
-          </div>
+          <section
+            id="admin-dashboard"
+            className="admin-dashboard-section"
+          >
 
-          {/* Dynamic Stats Cards */}
-          <div className="admin-stats">
-            <div className="admin-stat-card">
-              <div className="admin-stat-label">Total Hotels</div>
-              <div className="admin-stat-value">{hotels.length}</div>
-            </div>
-            <div className="admin-stat-card">
-              <div className="admin-stat-label">Total Users</div>
-              <div className="admin-stat-value">{userStats.totalUsers}</div>
-            </div>
-            <div className="admin-stat-card">
-              <div className="admin-stat-label">Admins</div>
-              <div className="admin-stat-value">{userStats.totalAdmins}</div>
-            </div>
-          </div>
+            <div className="admin-page-heading">
 
-          {/* Hotel Table Section */}
-          <section>
-            <div className="admin-section-header">
-              <h2 id="admin-hotels">Hotels</h2>
+              <h1>
+                Dashboard
+              </h1>
+
             </div>
 
-            {/* Filter Toolbar */}
+            {/* STAT CARDS */}
+
+            <div className="admin-stat-grid">
+
+              <div className="admin-stat-card">
+
+                <span>
+                  Total Hotels
+                </span>
+
+                <strong>
+                  {totalHotels}
+                </strong>
+
+              </div>
+
+              <div className="admin-stat-card">
+
+                <span>
+                  Total Users
+                </span>
+
+                <strong>
+                  {totalUsers}
+                </strong>
+
+              </div>
+
+            </div>
+
+          </section>
+
+          <section
+            id="admin-hotels"
+            className="admin-hotels-section"
+          >
+
+            <div className="admin-section-heading">
+
+              <h2>
+                Hotels
+              </h2>
+
+            </div>
+
             <div className="admin-hotel-toolbar">
-              <div className="admin-search-box">
-                <label>Search Hotels</label>
+
+              <form
+                className="admin-search-form"
+                onSubmit={
+                  handleSearch
+                }
+              >
+
+                <label
+                  htmlFor="admin-search"
+                >
+                  Search hotels
+                </label>
+
                 <input
+                  id="admin-search"
                   type="text"
-                  value={hotelSearch}
-                  onChange={(e) => setHotelSearch(e.target.value)}
-                  placeholder="Search by hotel name..."
+                  value={search}
+                  onChange={(event) =>
+                    setSearch(
+                      event.target.value
+                    )
+                  }
+                  placeholder="Search hotels"
                 />
+
+                <button
+                  type="submit"
+                  className="admin-search-btn"
+                >
+                  Search
+                </button>
+
+              </form>
+
+              <Link
+                to="/admin/hotels/add"
+                className="admin-add-btn"
+              >
+                Add Hotel
+              </Link>
+
+            </div>
+
+            <div className="admin-price-filter">
+
+              <div>
+
+                <label>
+                  Min Price
+                </label>
+
+                <input
+                  type="number"
+                  min="0"
+                  value={minPrice}
+                  onChange={(event) =>
+                    setMinPrice(
+                      event.target.value
+                    )
+                  }
+                  placeholder="Min"
+                />
+
               </div>
 
-              <div className="admin-price-filter">
-                <div>
-                  <label>Min Price</label>
-                  <input
-                    type="number"
-                    min="0"
-                    value={minPrice}
-                    onChange={(e) => setMinPrice(e.target.value)}
-                    placeholder="₹ Min"
-                  />
-                </div>
-                <div>
-                  <label>Max Price</label>
-                  <input
-                    type="number"
-                    min="0"
-                    value={maxPrice}
-                    onChange={(e) => setMaxPrice(e.target.value)}
-                    placeholder="₹ Max"
-                  />
-                </div>
-                <button
-                  type="button"
-                  className="admin-apply-button"
-                  onClick={handleApplyFilters}
-                >
-                  Apply
-                </button>
-                <button
-                  type="button"
-                  className="admin-clear-button"
-                  onClick={handleClearFilters}
-                >
-                  Clear
-                </button>
+              <div>
+
+                <label>
+                  Max Price
+                </label>
+
+                <input
+                  type="number"
+                  min="0"
+                  value={maxPrice}
+                  onChange={(event) =>
+                    setMaxPrice(
+                      event.target.value
+                    )
+                  }
+                  placeholder="Max"
+                />
+
               </div>
+
+              <button
+                type="button"
+                className="admin-apply-btn"
+                onClick={fetchHotels}
+              >
+                Apply
+              </button>
+
+              <button
+                type="button"
+                className="admin-clear-btn"
+                onClick={
+                  clearFilters
+                }
+              >
+                Clear
+              </button>
+
             </div>
 
             <div className="admin-result-count">
-              Showing {filteredHotels.length} of {hotels.length} hotels
+              {totalHotels}{" "}
+              {totalHotels === 1
+                ? "hotel"
+                : "hotels"}{" "}
+              found
             </div>
 
-            <div className="hotel-table-wrapper">
-              {loading && (
-                <p className="admin-table-message">Loading hotels...</p>
-              )}
+            {error && (
+              <div className="admin-error">
+                {error}
+              </div>
+            )}
 
-              {error && (
-                <p className="admin-table-error">{error}</p>
-              )}
+            <div className="admin-table-wrapper">
 
-              {!loading && !error && hotels.length === 0 && (
-                <p className="admin-table-message">No hotels found.</p>
-              )}
+              {loading ? (
 
-              {!loading && !error && hotels.length > 0 && (
-                <table className="hotel-table">
+                <div className="admin-table-state">
+                  Loading hotels...
+                </div>
+
+              ) : hotels.length ===
+                0 ? (
+
+                <div className="admin-table-state">
+                  No hotels found.
+                </div>
+
+              ) : (
+
+                <table className="admin-table">
+
                   <thead>
+
                     <tr>
-                      <th>Hotel</th>
-                      <th>Description</th>
-                      <th>Price</th>
-                      <th>Actions</th>
+
+                      <th>
+                        Hotel
+                      </th>
+
+                      <th>
+                        Price
+                      </th>
+
+                      <th>
+                        Edit
+                      </th>
+
+                      <th>
+                        Delete
+                      </th>
+
                     </tr>
+
                   </thead>
+
                   <tbody>
-                    {filteredHotels.map((hotel) => (
-                      <tr key={hotel.id}>
-                        <td>
-                          <div className="hotel-table-name">{hotel.title}</div>
-                          <div className="hotel-table-id">ID: {hotel.id}</div>
-                        </td>
-                        <td>
-                          <div className="hotel-table-desc">
-                            {hotel.description || "No description available."}
-                          </div>
-                        </td>
-                        <td>
-                          <span className="hotel-table-price">
-                            &#8377;{Number(hotel.price).toLocaleString("en-IN")}
-                          </span>
-                        </td>
-                        <td>
-                          <div className="admin-actions">
+
+                    {hotels.map(
+                      (hotel) => (
+
+                        <tr
+                          key={hotel.id}
+                        >
+
+                          <td className="hotel-cell">
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                {hotel.image ? (
+                                    <img
+                                      src={getImageUrl(hotel.image)}
+                                      alt={hotel.title}
+                                      className="admin-hotel-image"
+                                      onError={(event) => {
+                                        event.currentTarget.style.display = "none";
+                                      }}
+                                    />
+                                  ) : (
+                                    <div 
+                                      className="admin-hotel-image placeholder" 
+                                      style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f1f5f9', fontSize: '10px', color: '#94a3b8', border: '1px dashed #cbd5e1' }}
+                                    >
+                                      No image
+                                    </div>
+                                  )}
+                                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                  <strong className="hotel-name">{hotel.title}</strong>
+                                  <span style={{ fontSize: '12px', color: '#64748b' }}>ID: {hotel.id}</span>
+                                </div>
+                              </div>
+                            </td>
+
+                          <td>
+                            <span className="hotel-price">
+                              ₹
+                              {Number(
+                                hotel.price ||
+                                  0
+                              ).toLocaleString(
+                                "en-IN"
+                              )}
+                            </span>
+                          </td>
+
+                          <td>
+
                             <Link
-                              to={`/admin/edit/${hotel.id}`}
+                              to={`/admin/hotels/edit/${hotel.id}`}
                               className="admin-edit-btn"
                             >
                               Edit
                             </Link>
+
+                          </td>
+
+                          <td>
+
                             <button
+                              type="button"
                               className="admin-delete-btn"
-                              onClick={() => handleDelete(hotel.id, hotel.title)}
+                              onClick={() =>
+                                handleDelete(
+                                  hotel.id
+                                )
+                              }
                             >
                               Delete
                             </button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                    {filteredHotels.length === 0 && (
-                      <tr>
-                        <td colSpan="4">
-                          <p className="admin-table-message">No hotels match your filters.</p>
-                        </td>
-                      </tr>
+
+                          </td>
+
+                        </tr>
+
+                      )
                     )}
+
                   </tbody>
+
                 </table>
+
               )}
+
             </div>
+
           </section>
 
         </main>
+
       </div>
 
-      {showLogoutModal && (
-        <LogoutConfirmModal
-          onConfirm={handleLogoutConfirm}
-          onCancel={() => setShowLogoutModal(false)}
-        />
-      )}
     </div>
   );
 }

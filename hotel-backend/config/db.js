@@ -1,4 +1,3 @@
-// Database config
 const { Pool } = require("pg");
 require("dotenv").config();
 
@@ -17,7 +16,6 @@ const pool = new Pool(
     }
 );
 
-// Test Database Connection
 pool.connect()
     .then(() => console.log("✅ PostgreSQL Connected"))
     .catch((err) =>

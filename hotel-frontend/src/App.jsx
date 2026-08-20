@@ -33,8 +33,23 @@ function App() {
       <Route path="/" element={<RootRedirect />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/hotels" element={<Hotels />} />
-      <Route path="/hotels/:id" element={<HotelDetails />} />
+      
+      <Route
+        path="/hotels"
+        element={
+          <ProtectedRoute userOnly>
+            <Hotels />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/hotels/:id"
+        element={
+          <ProtectedRoute userOnly>
+            <HotelDetails />
+          </ProtectedRoute>
+        }
+      />
       
       <Route
         path="/admin"
@@ -45,7 +60,7 @@ function App() {
         }
       />
       <Route
-        path="/admin/add"
+        path="/admin/hotels/add"
         element={
           <ProtectedRoute adminOnly>
             <AddHotel />
@@ -53,7 +68,7 @@ function App() {
         }
       />
       <Route
-        path="/admin/edit/:id"
+        path="/admin/hotels/edit/:id"
         element={
           <ProtectedRoute adminOnly>
             <AdminEditHotel />
@@ -68,3 +83,4 @@ function App() {
 }
 
 export default App;
+

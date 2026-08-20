@@ -1,7 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+} from "react-leaflet";
 import L from "leaflet";
+
 import api from "../services/api";
 import Navbar from "../components/Navbar";
 
@@ -31,17 +37,19 @@ function HotelDetails() {
   useEffect(() => {
     const fetchHotel = async () => {
       try {
-        const response = await api.get(`/hotels/${id}`);
+        setLoading(true);
+        setError("");
 
+        const response = await api.get(`/hotels/${id}`);
         const data = response.data;
 
         setHotel(data.hotel || data.data);
-      } catch (error) {
-        console.error(error);
+      } catch (err) {
+        console.error(err);
 
         setError(
-          error.response?.data?.message ||
-          "Failed to load hotel details."
+          err.response?.data?.message ||
+            "Failed to load hotel details."
         );
       } finally {
         setLoading(false);
@@ -55,9 +63,10 @@ function HotelDetails() {
     return (
       <>
         <Navbar />
+
         <main className="hotel-details-page">
-          <div className="hotel-loading">
-            Loading hotel...
+          <div className="hotel-details-state">
+            <h1>Loading hotel...</h1>
           </div>
         </main>
       </>
@@ -68,13 +77,21 @@ function HotelDetails() {
     return (
       <>
         <Navbar />
-        <main className="hotel-details-page">
-          <div className="hotel-not-found">
-            <h1>Hotel Not Found</h1>
-            <p>{error || "The requested hotel does not exist."}</p>
 
-            <Link to="/hotels" className="back-link">
-              &larr; Back to Hotels
+        <main className="hotel-details-page">
+          <div className="hotel-details-state">
+            <h1>Hotel Not Found</h1>
+
+            <p>
+              {error ||
+                "The requested hotel does not exist."}
+            </p>
+
+            <Link
+              to="/hotels"
+              className="hotel-back-link"
+            >
+              Back to Hotels
             </Link>
           </div>
         </main>
@@ -85,8 +102,19 @@ function HotelDetails() {
   const latitude = Number(hotel.latitude);
   const longitude = Number(hotel.longitude);
 
-  const googleMapsUrl =
-    `https://www.google.com/maps?q=${latitude},${longitude}`;
+  const hasLocation =
+    Number.isFinite(latitude) &&
+    Number.isFinite(longitude);
+
+  const googleMapsUrl = hasLocation
+    ? `https://www.google.com/maps?q=${latitude},${longitude}`
+    : "#";
+
+  const imageUrl = hotel.image
+    ? hotel.image.startsWith("http")
+      ? hotel.image
+      : `http://localhost:5000${hotel.image}`
+    : "";
 
   return (
     <>
@@ -94,168 +122,187 @@ function HotelDetails() {
 
       <main className="hotel-details-page">
 
-        <Link to="/hotels" className="back-link">
-          &larr; Back to Hotels
-        </Link>
+        <div className="hotel-details-container">
 
-        {/* Hero image */}
-        <section className="hotel-detail-hero">
+          {/* Back */}
+          <Link
+            to="/hotels"
+            className="hotel-back-link"
+          >
+            Back to Hotels
+          </Link>
 
-          {hotel.image ? (
-            <img
-              src={
-                hotel.image.startsWith("http")
-                  ? hotel.image
-                  : `http://localhost:5000${hotel.image}`
-              }
-              alt={hotel.title}
-            />
-          ) : (
-            <div className="hotel-detail-placeholder">
-              <span className="image-placeholder">Hotel image</span>
+          {/* Main hotel image */}
+          <section className="hotel-detail-image-section">
+            {imageUrl ? (
+              <img
+                src={imageUrl}
+                alt={hotel.title}
+                className="hotel-detail-image"
+              />
+            ) : (
+              <div className="hotel-detail-no-image">
+                No hotel image available
+              </div>
+            )}
+          </section>
+
+          {/* Hotel information */}
+          <section className="hotel-detail-information">
+
+            <div className="hotel-detail-top">
+
+              <div className="hotel-detail-title">
+
+                <p className="hotel-detail-label">
+                  HOTEL DETAILS
+                </p>
+
+                <h1>{hotel.title}</h1>
+
+              </div>
+
+              <div className="hotel-detail-price">
+
+                <strong>
+                  ₹
+                  {Number(
+                    hotel.price || 0
+                  ).toLocaleString("en-IN")}
+                </strong>
+
+                <span>/ 24 hrs</span>
+
+              </div>
+
             </div>
-          )}
 
-        </section>
+            {/* Location */}
+            <div className="hotel-detail-section">
 
-        {/* Hotel information */}
-        <section className="hotel-detail-info">
+              <h2>Location</h2>
 
-          <div className="hotel-detail-heading">
+              <p className="hotel-coordinate">
+                {hasLocation
+                  ? `${latitude}, ${longitude}`
+                  : "Location coordinates unavailable"}
+              </p>
+
+            </div>
+
+            {/* Description */}
+            <div className="hotel-detail-section">
+
+              <h2>About this hotel</h2>
+
+              <p className="hotel-detail-description">
+                {hotel.description ||
+                  "No description available for this hotel."}
+              </p>
+
+            </div>
+
+          </section>
+
+          {/* Map */}
+          <section className="hotel-detail-location">
+
+            <div className="hotel-section-heading">
+
+              <p className="hotel-detail-label">
+                LOCATION
+              </p>
+
+              <h2>Hotel Location</h2>
+
+              {hasLocation && (
+                <p className="hotel-coordinate">
+                  {latitude}, {longitude}
+                </p>
+              )}
+
+            </div>
+
+            {hasLocation ? (
+              <MapContainer
+                center={[latitude, longitude]}
+                zoom={15}
+                scrollWheelZoom={true}
+                className="hotel-detail-map"
+              >
+                <TileLayer
+                  attribution="&copy; OpenStreetMap contributors"
+                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+
+                <Marker
+                  position={[latitude, longitude]}
+                >
+                  <Popup>
+                    <strong>{hotel.title}</strong>
+                    <br />
+                    ₹
+                    {Number(
+                      hotel.price || 0
+                    ).toLocaleString("en-IN")}
+                    / 24 hrs
+                  </Popup>
+                </Marker>
+              </MapContainer>
+            ) : (
+              <div className="hotel-map-error">
+                Location coordinates are unavailable.
+              </div>
+            )}
+
+            <div className="hotel-map-footer">
+
+              <span>
+                {hasLocation
+                  ? `${latitude}, ${longitude}`
+                  : "Location unavailable"}
+              </span>
+
+              {hasLocation && (
+                <a
+                  href={googleMapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hotel-google-maps"
+                >
+                  Open in Google Maps
+                </a>
+              )}
+
+            </div>
+
+          </section>
+
+          {/* Metadata */}
+          <section className="hotel-detail-meta">
 
             <div>
-              <p className="eyebrow">
-                HOTEL DETAILS
-              </p>
-
-              <h1>{hotel.title}</h1>
-
-              <p className="hotel-location-text">
-                <img
-                  src="/location-pin.png"
-                  alt="Location"
-                  className="location-pin"
-                />
-                <span>{latitude}, {longitude}</span>
-              </p>
+              <span>Hotel ID</span>
+              <strong>#{hotel.id}</strong>
             </div>
 
-            <div className="hotel-detail-price">
-              <span>From</span>
-
+            <div>
+              <span>Latitude</span>
               <strong>
-                ₹{Number(hotel.price).toLocaleString("en-IN")}
+                {hasLocation ? latitude : "-"}
               </strong>
-
-              <small>/ night</small>
             </div>
 
-          </div>
-
-          <div className="hotel-detail-description">
-
-            <h2>About this hotel</h2>
-
-            <p>
-              {hotel.description ||
-                "No description available for this hotel."}
-            </p>
-
-          </div>
-
-        </section>
-
-        {/* Location */}
-        <section className="hotel-location-section">
-
-          <div className="location-header">
-
-            <p className="eyebrow">
-              LOCATION
-            </p>
-
-            <h2>Hotel Location</h2>
-
-            <p className="hotel-location-text">
-              <img
-                src="/location-pin.png"
-                alt="Location"
-                className="location-pin"
-              />
-              <span>{latitude}, {longitude}</span>
-            </p>
-
-          </div>
-
-          {Number.isFinite(latitude) &&
-            Number.isFinite(longitude) ? (
-            <MapContainer
-              center={[latitude, longitude]}
-              zoom={15}
-              scrollWheelZoom={true}
-              className="hotel-map"
-            >
-
-              <TileLayer
-                attribution='&copy; OpenStreetMap contributors'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              />
-
-              <Marker
-                position={[latitude, longitude]}
-              >
-                <Popup>
-                  <strong>{hotel.title}</strong>
-                  <br />
-                  ₹{Number(hotel.price).toLocaleString("en-IN")}/ night
-                </Popup>
-              </Marker>
-
-            </MapContainer>
-          ) : (
-            <div className="map-error">
-              Location coordinates are unavailable.
+            <div>
+              <span>Longitude</span>
+              <strong>
+                {hasLocation ? longitude : "-"}
+              </strong>
             </div>
-          )}
 
-          <div className="location-footer">
+          </section>
 
-            <span>
-              {latitude}, {longitude}
-            </span>
-
-            <a
-              href={googleMapsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="maps-button"
-            >
-              Open in Google Maps &nearr;
-            </a>
-
-          </div>
-
-        </section>
-
-        {/* Hotel metadata */}
-        <section className="hotel-meta">
-
-          <div>
-            <span>Hotel ID</span>
-            <strong>#{hotel.id}</strong>
-          </div>
-
-          <div>
-            <span>Latitude</span>
-            <strong>{latitude}</strong>
-          </div>
-
-          <div>
-            <span>Longitude</span>
-            <strong>{longitude}</strong>
-          </div>
-
-        </section>
+        </div>
 
       </main>
     </>

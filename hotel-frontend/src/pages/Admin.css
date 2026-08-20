@@ -1,624 +1,833 @@
 /* =========================================================
-   HOTEL COLLECTION — ADMIN DASHBOARD
-   ========================================================= */
+   ADMIN PAGE
+========================================================= */
 
 .admin-page {
   min-height: 100vh;
-  background: #f7f5f1;
+  background: #f8f9f8;
   color: #202522;
-  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Arial,
+    sans-serif;
 }
 
-/* ========================= TOP NAVBAR ========================= */
+
+/* =========================================================
+   TOP NAVBAR
+========================================================= */
 
 .admin-navbar {
-  height: 68px;
-  padding: 0 32px;
+  height: 64px;
+
+  padding: 0 28px;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   background: #ffffff;
-  border-bottom: 1px solid #e8e5df;
+
+  border-bottom: 1px solid #e3e5e3;
+
   box-sizing: border-box;
 }
 
 .admin-brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: #1f5c4a;
-  font-size: 13px;
+  color: #205c4a;
+
+  font-size: 15px;
   font-weight: 700;
-  letter-spacing: 0.1em;
+
+  text-decoration: none;
 }
 
-.admin-logo {
-  width: 38px;
-  height: 38px;
+.admin-navbar-right {
   display: flex;
   align-items: center;
-  justify-content: center;
-  border-radius: 11px;
-  background: #eef3ef;
-  font-size: 20px;
+
+  gap: 16px;
 }
 
-.admin-user {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
+.admin-role {
+  color: #404440;
 
-.admin-name {
   font-size: 14px;
-  font-weight: 650;
-  color: #202522;
+  font-weight: 500;
 }
 
 .admin-logout-btn {
-  border: 1px solid #ddd9d2;
-  background: #fff;
-  padding: 8px 14px;
-  border-radius: 8px;
-  color: #383d39;
+  height: 34px;
+
+  padding: 0 13px;
+
+  border: 1px solid #d8dad8;
+  border-radius: 3px;
+
+  background: #ffffff;
+  color: #333735;
+
+  font-family: inherit;
   font-size: 13px;
-  font-weight: 600;
+
   cursor: pointer;
-  transition: background 0.2s ease;
 }
 
 .admin-logout-btn:hover {
-  background: #f5f3ef;
+  background: #f5f6f5;
 }
 
-/* ========================= LAYOUT ========================= */
+
+/* =========================================================
+   MAIN LAYOUT
+========================================================= */
 
 .admin-layout {
+  min-height: calc(100vh - 64px);
+
   display: grid;
-  grid-template-columns: 220px minmax(0, 1fr);
-  min-height: calc(100vh - 68px);
+
+  grid-template-columns:
+    210px
+    minmax(0, 1fr);
 }
 
-/* ========================= SIDEBAR ========================= */
+
+/* =========================================================
+   LEFT SIDEBAR
+========================================================= */
 
 .admin-sidebar {
-  padding: 28px 18px;
+  padding: 24px 12px;
+
   background: #ffffff;
-  border-right: 1px solid #e8e5df;
+
+  border-right: 1px solid #e3e5e3;
 }
 
-.admin-sidebar-title {
-  padding: 0 12px 12px;
-  color: #9a9e9a;
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-}
-
-.admin-nav {
+.admin-sidebar-nav {
   display: flex;
   flex-direction: column;
+
   gap: 4px;
 }
 
-.admin-nav a,
-.admin-nav button {
-  display: block;
+.admin-sidebar-nav button {
   width: 100%;
-  padding: 11px 12px;
-  border: none;
-  border-radius: 9px;
+
+  padding: 10px 12px;
+
+  border: 1px solid transparent;
+  border-radius: 3px;
+
   background: transparent;
-  color: #555b56;
+  color: #555a56;
+
+  font-family: inherit;
   font-size: 14px;
-  font-weight: 600;
-  text-decoration: none;
+  font-weight: 500;
+
   text-align: left;
+
   cursor: pointer;
-  transition: background 0.2s ease, color 0.2s ease;
 }
 
-.admin-nav a:hover,
-.admin-nav button:hover {
-  background: #f1f4f1;
-  color: #1f5c4a;
+.admin-sidebar-nav button:hover {
+  background: #f6f7f6;
 }
 
-.admin-nav a.active {
-  background: #eaf1ed;
-  color: #1f5c4a;
+.admin-sidebar-nav button.active {
+  border-color: #dfe7e2;
+
+  background: #f3f7f4;
+
+  color: #205c4a;
 }
 
-/* ========================= MAIN ========================= */
+
+/* =========================================================
+   MAIN CONTENT
+========================================================= */
 
 .admin-main {
   min-width: 0;
-  padding: 38px;
+
+  padding: 34px;
 }
 
-/* ========================= HEADER ========================= */
 
-.admin-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 20px;
-  margin-bottom: 30px;
+/* =========================================================
+   DASHBOARD HEADING
+========================================================= */
+
+.admin-page-heading {
+  margin-bottom: 24px;
 }
 
-.admin-header h1 {
+.admin-page-heading h1 {
   margin: 0;
+
   color: #202522;
-  font-size: 34px;
-  line-height: 1.1;
-  letter-spacing: -0.04em;
+
+  font-size: 28px;
+  font-weight: 650;
+  letter-spacing: normal;
 }
 
-.admin-header p {
-  margin: 9px 0 0;
-  color: #777c77;
-  font-size: 14px;
-}
 
-/* ========================= ADD HOTEL BUTTON ========================= */
+/* =========================================================
+   STAT CARDS
+========================================================= */
 
-.add-hotel-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 11px 17px;
-  border: none;
-  border-radius: 9px;
-  background: #1f5c4a;
-  color: white;
-  font-size: 13px;
-  font-weight: 700;
-  text-decoration: none;
-  white-space: nowrap;
-  cursor: pointer;
-  transition: background 0.2s ease, transform 0.15s ease;
-}
-
-.add-hotel-btn:hover {
-  background: #174a3b;
-  transform: translateY(-1px);
-}
-
-/* ========================= STAT CARDS ========================= */
-
-.admin-stats {
+.admin-stat-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 18px;
-  margin-bottom: 38px;
+
+  grid-template-columns:
+    repeat(2, minmax(220px, 300px));
+
+  gap: 16px;
+
+  margin-bottom: 34px;
 }
 
 .admin-stat-card {
-  padding: 22px;
+  min-height: 110px;
+
+  padding: 20px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
   background: #ffffff;
-  border: 1px solid #e7e4de;
-  border-radius: 14px;
-  box-shadow: 0 5px 18px rgba(30, 35, 31, 0.035);
+
+  border: 1px solid #e1e3e1;
+  border-radius: 3px;
+
+  box-sizing: border-box;
 }
 
-.admin-stat-label {
-  color: #858a85;
+.admin-stat-card span {
+  color: #777d78;
+
   font-size: 12px;
-  font-weight: 650;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-
-.admin-stat-value {
-  margin-top: 8px;
-  color: #202522;
-  font-size: 29px;
-  font-weight: 750;
-  letter-spacing: -0.03em;
-}
-
-/* ========================= SECTION HEADER ========================= */
-
-.admin-section-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 15px;
-}
-
-.admin-section-header h2 {
-  margin: 0;
-  font-size: 20px;
-  letter-spacing: -0.02em;
-  color: #202522;
-}
-
-/* =====================================
-   ADMIN HOTEL FILTER
-===================================== */
-
-.admin-hotel-toolbar {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 20px;
-
-  margin-bottom: 12px;
-  padding: 18px;
-
-  background: #ffffff;
-
-  border: 1px solid #e5e7eb;
-  border-radius: 10px;
-}
-
-
-.admin-search-box {
-  flex: 1;
-}
-
-
-.admin-search-box label,
-.admin-price-filter label {
-  display: block;
-
-  margin-bottom: 6px;
-
-  font-size: 11px;
   font-weight: 600;
-
-  color: #6b7280;
 
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
 
+.admin-stat-card strong {
+  color: #202522;
 
-.admin-search-box input,
-.admin-price-filter input {
-  width: 100%;
-  height: 40px;
+  font-size: 28px;
+  font-weight: 700;
+}
 
-  box-sizing: border-box;
+
+/* =========================================================
+   HOTELS HEADING
+========================================================= */
+
+.admin-section-heading {
+  margin-bottom: 14px;
+}
+
+.admin-section-heading h2 {
+  margin: 0;
+
+  color: #202522;
+
+  font-size: 20px;
+  font-weight: 650;
+  letter-spacing: normal;
+}
+
+
+/* =========================================================
+   SEARCH + ADD HOTEL
+========================================================= */
+
+.admin-hotel-toolbar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  margin-bottom: 12px;
+}
+
+.admin-search-form {
+  flex: 1;
+
+  display: flex;
+  align-items: flex-end;
+
+  gap: 8px;
+}
+
+.admin-search-form label {
+  position: absolute;
+
+  width: 1px;
+  height: 1px;
+
+  overflow: hidden;
+}
+
+.admin-search-form input {
+  flex: 1;
+
+  min-width: 0;
+
+  height: 38px;
 
   padding: 0 11px;
 
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
+  border: 1px solid #d5d7d5;
+  border-radius: 3px;
 
   background: #ffffff;
+  color: #202522;
 
-  color: #111827;
-
+  font-family: inherit;
   font-size: 13px;
 
   outline: none;
+
+  box-sizing: border-box;
+}
+
+.admin-search-form input:focus {
+  border-color: #8b928d;
+}
+
+.admin-search-btn {
+  height: 38px;
+
+  padding: 0 14px;
+
+  border: 1px solid #205c4a;
+  border-radius: 3px;
+
+  background: #205c4a;
+  color: #ffffff;
+
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.admin-search-btn:hover {
+  background: #174b3c;
+}
+
+.admin-add-btn {
+  height: 38px;
+
+  padding: 0 15px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid #205c4a;
+  border-radius: 3px;
+
+  background: #205c4a;
+  color: #ffffff;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  text-decoration: none;
+
+  white-space: nowrap;
+}
+
+.admin-add-btn:hover {
+  background: #174b3c;
 }
 
 
-.admin-search-box input:focus,
-.admin-price-filter input:focus {
-  border-color: #6b7280;
-}
-
+/* =========================================================
+   PRICE FILTER
+========================================================= */
 
 .admin-price-filter {
   display: flex;
   align-items: flex-end;
 
   gap: 8px;
-}
 
+  margin-bottom: 10px;
+}
 
 .admin-price-filter > div {
   width: 120px;
 }
 
+.admin-price-filter label {
+  display: block;
 
-.admin-apply-button,
-.admin-clear-button {
-  height: 40px;
+  margin-bottom: 5px;
 
-  padding: 0 15px;
+  color: #707670;
 
-  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+}
 
+.admin-price-filter input {
+  width: 100%;
+
+  height: 36px;
+
+  padding: 0 9px;
+
+  border: 1px solid #d5d7d5;
+  border-radius: 3px;
+
+  background: #ffffff;
+
+  font-family: inherit;
   font-size: 13px;
-  font-weight: 500;
+
+  outline: none;
+
+  box-sizing: border-box;
+}
+
+.admin-apply-btn,
+.admin-clear-btn {
+  height: 36px;
+
+  padding: 0 12px;
+
+  border-radius: 3px;
+
+  font-family: inherit;
+  font-size: 12px;
 
   cursor: pointer;
 }
 
+.admin-apply-btn {
+  border: 1px solid #205c4a;
 
-.admin-apply-button {
-  border: 1px solid #155e52;
-
-  background: #155e52;
-
+  background: #205c4a;
   color: #ffffff;
 }
 
-
-.admin-apply-button:hover {
-  background: #124d44;
-}
-
-
-.admin-clear-button {
-  border: 1px solid #d1d5db;
+.admin-clear-btn {
+  border: 1px solid #d5d7d5;
 
   background: #ffffff;
+  color: #444;
+}
 
-  color: #374151;
+.admin-apply-btn:hover {
+  background: #174b3c;
+}
+
+.admin-clear-btn:hover {
+  background: #f5f6f5;
 }
 
 
-.admin-clear-button:hover {
-  background: #f3f4f6;
-}
-
+/* =========================================================
+   RESULT COUNT
+========================================================= */
 
 .admin-result-count {
-  margin: 12px 0;
+  margin-bottom: 9px;
+
+  color: #7b807c;
 
   font-size: 12px;
-
-  color: #6b7280;
 }
 
-/* ========================= HOTEL TABLE ========================= */
 
-.hotel-table-wrapper {
+/* =========================================================
+   TABLE
+========================================================= */
+
+.admin-table-wrapper {
   width: 100%;
+
   overflow-x: auto;
+
   background: #ffffff;
-  border: 1px solid #e7e4de;
-  border-radius: 14px;
-  box-shadow: 0 5px 18px rgba(30, 35, 31, 0.035);
-}
 
-.hotel-table {
+  border: 1px solid #e1e3e1;
+  border-radius: 3px;
+
+  }
+
+.admin-table {
   width: 100%;
+
+  min-width: 620px;
+
   border-collapse: collapse;
-  min-width: 600px;
+
+  table-layout: fixed;
 }
 
-.hotel-table th {
-  padding: 15px 18px;
-  background: #faf9f6;
-  border-bottom: 1px solid #e7e4de;
-  color: #777c77;
+
+/* Hotel */
+
+.admin-table th:nth-child(1),
+.admin-table td:nth-child(1) {
+  width: 55%;
+}
+
+
+/* Price */
+
+.admin-table th:nth-child(2),
+.admin-table td:nth-child(2) {
+  width: 20%;
+}
+
+
+/* Edit */
+
+.admin-table th:nth-child(3),
+.admin-table td:nth-child(3) {
+  width: 12.5%;
+}
+
+
+/* Delete */
+
+.admin-table th:nth-child(4),
+.admin-table td:nth-child(4) {
+  width: 12.5%;
+}
+
+
+.admin-table th {
+  padding: 13px 16px;
+
+  background: #fafafa;
+
+  border-bottom: 1px solid #e2e4e2;
+
+  color: #737873;
+
   font-size: 11px;
-  font-weight: 700;
+  font-weight: 600;
+
   text-align: left;
+
   text-transform: uppercase;
-  letter-spacing: 0.07em;
+  letter-spacing: 0.04em;
 }
 
-.hotel-table td {
-  padding: 16px 18px;
-  border-bottom: 1px solid #efede8;
-  color: #424742;
+.admin-table td {
+  padding: 15px 16px;
+
+  border-bottom: 1px solid #eeeeec;
+
+  color: #343835;
+
   font-size: 13px;
-  vertical-align: middle;
 }
 
-.hotel-table tbody tr:last-child td {
+.admin-table tbody tr:last-child td {
   border-bottom: none;
 }
 
-.hotel-table tbody tr:hover {
-  background: #fcfbf9;
+.admin-table tbody tr:hover {
+  background: #fcfcfb;
 }
 
-.hotel-table-name {
+.hotel-name {
   color: #202522;
-  font-weight: 700;
+
   font-size: 14px;
+  font-weight: 600;
 }
 
-.hotel-table-id {
-  color: #9a9e9a;
-  font-size: 11px;
-  margin-top: 2px;
-}
-
-.hotel-table-desc {
-  max-width: 300px;
-  color: #858a85;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-size: 13px;
-}
-
-.hotel-table-price {
-  font-weight: 700;
+.hotel-price {
   color: #202522;
+
+  font-weight: 600;
 }
 
-/* ========================= ACTION BUTTONS ========================= */
 
-.admin-actions {
-  display: flex;
-  gap: 8px;
+/* =========================================================
+   EDIT / DELETE
+========================================================= */
+
+.admin-edit-btn,
+.admin-delete-btn {
+  min-width: 55px;
+
+  height: 32px;
+
+  padding: 0 9px;
+
+  display: inline-flex;
   align-items: center;
+  justify-content: center;
+
+  border-radius: 3px;
+
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+
+  cursor: pointer;
+  box-sizing: border-box;
 }
 
 .admin-edit-btn {
-  padding: 7px 12px;
-  border-radius: 7px;
-  border: 1px solid #d6e2dc;
-  background: #f0f6f3;
-  color: #1f5c4a;
-  font-size: 12px;
-  font-weight: 650;
-  text-decoration: none;
-  cursor: pointer;
-  transition: background 0.2s ease;
-  display: inline-block;
-}
+  border: 1px solid #d5dfda;
 
-.admin-edit-btn:hover {
-  background: #e5f0eb;
+  background: #f7faf8;
+  color: #205c4a;
+
+  text-decoration: none;
 }
 
 .admin-delete-btn {
-  padding: 7px 12px;
-  border-radius: 7px;
-  border: 1px solid #efd4d1;
-  background: #fff5f4;
-  color: #b42318;
-  font-size: 12px;
-  font-weight: 650;
-  cursor: pointer;
-  transition: background 0.2s ease;
+  border: 1px solid #e3d0ce;
+
+  background: #fffafa;
+  color: #a43b32;
+}
+
+.admin-edit-btn:hover {
+  background: #eef5f1;
 }
 
 .admin-delete-btn:hover {
-  background: #fdeceb;
+  background: #fdf1ef;
 }
 
-/* ========================= LOADING / ERROR ========================= */
 
-.admin-table-message {
-  padding: 40px 20px;
-  text-align: center;
-  color: #858a85;
+/* =========================================================
+   LOADING / EMPTY / ERROR
+========================================================= */
+
+.admin-table-state {
+  padding: 45px 20px;
+
+  color: #777d78;
+
   font-size: 14px;
-}
 
-.admin-table-error {
-  padding: 40px 20px;
   text-align: center;
-  color: #b42318;
-  font-size: 14px;
 }
 
-/* ========================= TABLET ========================= */
+.admin-error {
+  margin-bottom: 10px;
+
+  padding: 10px 12px;
+
+  border: 1px solid #ead1cf;
+  border-radius: 3px;
+
+  background: #fffafa;
+  color: #a43b32;
+
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
 
 @media (max-width: 900px) {
+
   .admin-layout {
-    grid-template-columns: 180px minmax(0, 1fr);
+    grid-template-columns:
+      180px
+      minmax(0, 1fr);
   }
 
   .admin-main {
     padding: 26px;
   }
+
+  .admin-stat-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
 }
 
-@media (max-width: 768px) {
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 767px) {
+
+  .admin-navbar {
+    height: 60px;
+
+    padding: 0 14px;
+  }
+
+  .admin-navbar-right {
+    gap: 8px;
+  }
+
+  .admin-role {
+    display: none;
+  }
+
+  /*
+     Sidebar becomes horizontal navigation
+     on small screens.
+  */
+
+  .admin-layout {
+    display: block;
+
+    min-height: auto;
+  }
+
+  .admin-sidebar {
+    padding: 8px 10px;
+
+    border-right: none;
+    border-bottom: 1px solid #e3e5e3;
+  }
+
+  .admin-sidebar-nav {
+    flex-direction: row;
+
+    overflow-x: auto;
+  }
+
+  .admin-sidebar-nav button {
+    width: auto;
+
+    min-width: 95px;
+
+    white-space: nowrap;
+
+    text-align: center;
+  }
+
+  .admin-main {
+    padding: 22px 14px;
+  }
+
+  .admin-page-heading h1 {
+    font-size: 25px;
+  }
+
+  .admin-stat-grid {
+    grid-template-columns: 1fr;
+
+    gap: 10px;
+
+    margin-bottom: 28px;
+  }
+
+  .admin-stat-card {
+    min-height: 95px;
+  }
 
   .admin-hotel-toolbar {
     flex-direction: column;
+
     align-items: stretch;
+
+    gap: 10px;
   }
 
-  .admin-search-box {
+  .admin-search-form {
+    width: 100%;
+  }
+
+  .admin-add-btn {
     width: 100%;
   }
 
   .admin-price-filter {
     display: grid;
 
-    grid-template-columns: 1fr 1fr;
-
-    width: 100%;
+    grid-template-columns:
+      1fr 1fr;
   }
 
   .admin-price-filter > div {
     width: auto;
   }
 
-  .admin-apply-button,
-  .admin-clear-button {
+  .admin-apply-btn,
+  .admin-clear-btn {
     width: 100%;
   }
 
-}
-
-/* ========================= MOBILE ========================= */
-
-@media (max-width: 767px) {
-  .admin-navbar {
-    height: auto;
-    min-height: 64px;
-    padding: 12px 16px;
-  }
-
-  .admin-name {
-    display: none;
-  }
-
-  .admin-layout {
-    display: block;
-  }
-
-  .admin-sidebar {
-    padding: 10px 12px;
-    border-right: none;
-    border-bottom: 1px solid #e8e5df;
-  }
-
-  .admin-sidebar-title {
-    display: none;
-  }
-
-  .admin-nav {
-    flex-direction: row;
+  .admin-table-wrapper {
     overflow-x: auto;
-    padding-bottom: 2px;
   }
 
-  .admin-nav a,
-  .admin-nav button {
-    flex: 0 0 auto;
-    white-space: nowrap;
-    width: auto;
+  .admin-table {
+    min-width: 600px;
   }
 
-  .admin-main {
-    padding: 22px 16px;
-  }
-
-  .admin-header {
-    align-items: stretch;
-    flex-direction: column;
-    margin-bottom: 24px;
-  }
-
-  .admin-header h1 {
-    font-size: 29px;
-  }
-
-  .add-hotel-btn {
-    width: 100%;
-  }
-
-  .admin-stats {
-    grid-template-columns: 1fr;
-    gap: 12px;
-    margin-bottom: 28px;
-  }
-
-  .admin-stat-card {
-    padding: 18px;
-  }
 }
 
-/* ========================= SMALL MOBILE ========================= */
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
 
 @media (max-width: 420px) {
+
   .admin-main {
-    padding: 18px 12px;
+    padding: 18px 10px;
   }
 
-  .admin-header h1 {
-    font-size: 26px;
+  .admin-navbar {
+    padding: 0 10px;
   }
 
-  .admin-stat-value {
-    font-size: 25px;
+  .admin-brand {
+    font-size: 14px;
+  }
+
+  .admin-logout-btn {
+    height: 32px;
+
+    padding: 0 10px;
+  }
+
+  .admin-price-filter {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+
+/* Admin Hotel Image Styles */
+.admin-hotel-image {
+  width: 72px;
+  height: 52px;
+  object-fit: cover;
+  border: 1px solid #e2e6e4;
+  border-radius: 3px;
+}
+
+@media (max-width: 768px) {
+  .admin-hotel-image {
+    width: 64px;
+    height: 48px;
   }
 }

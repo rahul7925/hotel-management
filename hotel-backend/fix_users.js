@@ -3,7 +3,6 @@ const bcrypt = require('bcryptjs');
 
 async function fixUsers() {
   try {
-    // 1. Admin
     const adminSalt = await bcrypt.genSalt(10);
     const adminHashed = await bcrypt.hash('NAMLATECHINDIApvtltd', adminSalt);
     await pool.query(
@@ -11,7 +10,6 @@ async function fixUsers() {
       [adminHashed]
     );
     
-    // 2. User
     const userSalt = await bcrypt.genSalt(10);
     const userHashed = await bcrypt.hash('user123', userSalt);
     await pool.query(
