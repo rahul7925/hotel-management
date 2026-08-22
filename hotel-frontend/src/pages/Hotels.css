@@ -1,6 +1,4 @@
-/* =========================================================
-   HOTELS PAGE — MODERN RESPONSIVE UI
-   ========================================================= */
+/*HOTELS PAGE — MODERN RESPONSIVE UI */
 
 .hotels-page {
   min-height: 100vh;
@@ -15,7 +13,7 @@
   margin: 0 auto;
 }
 
-/* ========================= HEADER ========================= */
+/* HEADER */
 
 .hotels-header {
   margin-bottom: 30px;
@@ -46,7 +44,7 @@
   font-size: 16px;
 }
 
-/* ========================= SEARCH/FILTER ========================= */
+/*SEARCH/FILTER */
 
 .hotel-search-container {
   display: flex;
@@ -103,7 +101,7 @@
   background: #000000;
 }
 
-/* ========================= PRICE FILTER ========================= */
+/*  PRICE FILTER */
 
 .price-filter {
   display: flex;
@@ -167,7 +165,7 @@
   background: #f3f4f6;
 }
 
-/* ========================= RESULT COUNT ========================= */
+/*  RESULT COUNT  */
 
 .hotels-result-count {
   margin: 0 0 18px;
@@ -176,7 +174,7 @@
   color: #6b7280;
 }
 
-/* ========================= GRID ========================= */
+/*  GRID  */
 
 .hotels-grid {
   display: grid;
@@ -184,7 +182,7 @@
   gap: 24px;
 }
 
-/* ========================= CARD ========================= */
+/*  CARD  */
 
 .hotel-card {
   display: flex;
@@ -274,7 +272,7 @@
   overflow: hidden;
 }
 
-/* ========================= PRICE ========================= */
+/*  PRICE  */
 
 .hotel-price {
   margin-top: auto;
@@ -304,7 +302,7 @@
   font-size: 12px;
 }
 
-/* ========================= FOOTER ========================= */
+/*  FOOTER */
 
 .hotel-card-footer {
   display: flex;
@@ -336,7 +334,7 @@
   transform: translateY(-1px);
 }
 
-/* ========================= PAGINATION ========================= */
+/* PAGINATION */
 
 .pagination {
   display: flex;
@@ -390,7 +388,7 @@
   cursor: not-allowed;
 }
 
-/* ========================= EMPTY STATE ========================= */
+/*  EMPTY STATE  */
 
 .hotels-empty {
   padding: 70px 20px;
@@ -411,7 +409,7 @@
   color: #6b7280;
 }
 
-/* ========= TABLET 768–1023px ========= */
+/*  TABLET 768–1023px  */
 
 @media (max-width: 1023px) {
   .hotels-page {
@@ -428,7 +426,7 @@
   }
 }
 
-/* ========= MOBILE ≤767px ========= */
+/*  MOBILE ≤767px */
 
 @media (max-width: 767px) {
   .hotels-page {
@@ -529,7 +527,7 @@
   }
 }
 
-/* ========= SMALL MOBILE ≤380px ========= */
+/*  SMALL MOBILE ≤380px */
 
 @media (max-width: 380px) {
   .hotels-page {
