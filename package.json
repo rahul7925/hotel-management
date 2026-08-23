@@ -1,0 +1,9 @@
+{
+  "name": "hotel-management-root",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "install": "npm install --prefix hotel-backend",
+    "start": "node hotel-backend/server.js"
+  }
+}
