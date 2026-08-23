@@ -1143,8 +1143,7 @@
   .mobile-filter-button {
     display: block;
   }
-
-
+}
 
 @media (max-width: 420px) {
   .hotels-navbar-inner,
