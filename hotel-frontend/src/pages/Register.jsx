@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import api from "../services/api";
+import "./Login.css";
 
 function Register() {
   const navigate = useNavigate();
@@ -48,69 +49,88 @@ function Register() {
   };
 
   return (
-    <main className="auth-page">
-      <div className="auth-card">
-        <h1>Create account</h1>
+    <div className="login-page">
+      <div className="login-card">
 
-        <p className="auth-subtitle">
-          Create your HotelHub account
-        </p>
+        <div className="login-brand">
+          <span>HOTEL COLLECTION</span>
+        </div>
 
-        {error && <div className="error-message">{error}</div>}
+        <div className="login-heading">
+          <h1>Create account</h1>
+          <p>Create your HotelHub account to get started.</p>
+        </div>
 
-        {success && (
-          <div className="success-message">{success}</div>
-        )}
+        <form onSubmit={handleSubmit} className="login-form">
 
-        <form onSubmit={handleSubmit}>
-          <label>Name</label>
+          <div className="form-group">
+            <label htmlFor="name">Full Name</label>
+            <input
+              id="name"
+              type="text"
+              name="name"
+              value={form.name}
+              onChange={handleChange}
+              placeholder="Enter your name"
+              required
+            />
+          </div>
 
-          <input
-            type="text"
-            name="name"
-            value={form.name}
-            onChange={handleChange}
-            placeholder="Enter your name"
-            required
-          />
+          <div className="form-group">
+            <label htmlFor="email">Email address</label>
+            <input
+              id="email"
+              type="email"
+              name="email"
+              value={form.email}
+              onChange={handleChange}
+              placeholder="you@example.com"
+              required
+            />
+          </div>
 
-          <label>Email</label>
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
+            <input
+              id="password"
+              type="password"
+              name="password"
+              value={form.password}
+              onChange={handleChange}
+              placeholder="Create a password"
+              required
+            />
+          </div>
 
-          <input
-            type="email"
-            name="email"
-            value={form.email}
-            onChange={handleChange}
-            placeholder="Enter your email"
-            required
-          />
+          {error && (
+            <div className="login-error">
+              {error}
+            </div>
+          )}
 
-          <label>Password</label>
-
-          <input
-            type="password"
-            name="password"
-            value={form.password}
-            onChange={handleChange}
-            placeholder="Create a password"
-            required
-          />
+          {success && (
+            <div className="login-error" style={{ background: '#ecfdf5', color: '#065f46', borderLeftColor: '#10b981' }}>
+              {success}
+            </div>
+          )}
 
           <button
             type="submit"
-            className="primary-btn auth-btn"
+            className="login-button"
             disabled={loading}
           >
             {loading ? "Creating..." : "Create Account"}
           </button>
+
         </form>
 
-        <p className="auth-footer">
-          Already have an account?{" "}
-          <Link to="/login">Login</Link>
-        </p>
+        <div className="login-register">
+          <span>Already have an account?</span>
+          <Link to="/login">Sign in here</Link>
+        </div>
+
       </div>
-    </main>
+    </div>
   );
 }
 
