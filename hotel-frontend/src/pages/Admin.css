@@ -1,6 +1,4 @@
-/* =========================================================
-   ADMIN PAGE
-========================================================= */
+
 
 .admin-page {
   min-height: 100vh;
@@ -15,11 +13,6 @@
     Arial,
     sans-serif;
 }
-
-
-/* =========================================================
-   TOP NAVBAR
-========================================================= */
 
 .admin-navbar {
   height: 64px;
@@ -81,11 +74,6 @@
   background: #f5f6f5;
 }
 
-
-/* =========================================================
-   MAIN LAYOUT
-========================================================= */
-
 .admin-layout {
   min-height: calc(100vh - 64px);
 
@@ -95,11 +83,6 @@
     210px
     minmax(0, 1fr);
 }
-
-
-/* =========================================================
-   LEFT SIDEBAR
-========================================================= */
 
 .admin-sidebar {
   padding: 24px 12px;
@@ -148,21 +131,11 @@
   color: #205c4a;
 }
 
-
-/* =========================================================
-   MAIN CONTENT
-========================================================= */
-
 .admin-main {
   min-width: 0;
 
   padding: 34px;
 }
-
-
-/* =========================================================
-   DASHBOARD HEADING
-========================================================= */
 
 .admin-page-heading {
   margin-bottom: 24px;
@@ -177,11 +150,6 @@
   font-weight: 650;
   letter-spacing: normal;
 }
-
-
-/* =========================================================
-   STAT CARDS
-========================================================= */
 
 .admin-stat-grid {
   display: grid;
@@ -228,11 +196,6 @@
   font-weight: 700;
 }
 
-
-/* =========================================================
-   HOTELS HEADING
-========================================================= */
-
 .admin-section-heading {
   margin-bottom: 14px;
 }
@@ -246,11 +209,6 @@
   font-weight: 650;
   letter-spacing: normal;
 }
-
-
-/* =========================================================
-   SEARCH + ADD HOTEL
-========================================================= */
 
 .admin-hotel-toolbar {
   display: flex;
@@ -356,11 +314,6 @@
   background: #174b3c;
 }
 
-
-/* =========================================================
-   PRICE FILTER
-========================================================= */
-
 .admin-price-filter {
   display: flex;
   align-items: flex-end;
@@ -441,11 +394,6 @@
   background: #f5f6f5;
 }
 
-
-/* =========================================================
-   RESULT COUNT
-========================================================= */
-
 .admin-result-count {
   margin-bottom: 9px;
 
@@ -453,11 +401,6 @@
 
   font-size: 12px;
 }
-
-
-/* =========================================================
-   TABLE
-========================================================= */
 
 .admin-table-wrapper {
   width: 100%;
@@ -480,93 +423,6 @@
 
   table-layout: fixed;
 }
-
-
-/* Hotel */
-
-.admin-table th:nth-child(1),
-.admin-table td:nth-child(1) {
-  width: 55%;
-}
-
-
-/* Price */
-
-.admin-table th:nth-child(2),
-.admin-table td:nth-child(2) {
-  width: 20%;
-}
-
-
-/* Edit */
-
-.admin-table th:nth-child(3),
-.admin-table td:nth-child(3) {
-  width: 12.5%;
-}
-
-
-/* Delete */
-
-.admin-table th:nth-child(4),
-.admin-table td:nth-child(4) {
-  width: 12.5%;
-}
-
-
-.admin-table th {
-  padding: 13px 16px;
-
-  background: #fafafa;
-
-  border-bottom: 1px solid #e2e4e2;
-
-  color: #737873;
-
-  font-size: 11px;
-  font-weight: 600;
-
-  text-align: left;
-
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
-
-.admin-table td {
-  padding: 15px 16px;
-
-  border-bottom: 1px solid #eeeeec;
-
-  color: #343835;
-
-  font-size: 13px;
-}
-
-.admin-table tbody tr:last-child td {
-  border-bottom: none;
-}
-
-.admin-table tbody tr:hover {
-  background: #fcfcfb;
-}
-
-.hotel-name {
-  color: #202522;
-
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.hotel-price {
-  color: #202522;
-
-  font-weight: 600;
-}
-
-
-/* =========================================================
-   EDIT / DELETE
-========================================================= */
 
 .admin-edit-btn,
 .admin-delete-btn {
@@ -614,11 +470,6 @@
   background: #fdf1ef;
 }
 
-
-/* =========================================================
-   LOADING / EMPTY / ERROR
-========================================================= */
-
 .admin-table-state {
   padding: 45px 20px;
 
@@ -643,11 +494,6 @@
   font-size: 13px;
 }
 
-
-/* =========================================================
-   TABLET
-========================================================= */
-
 @media (max-width: 900px) {
 
   .admin-layout {
@@ -667,11 +513,6 @@
 
 }
 
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
 @media (max-width: 767px) {
 
   .admin-navbar {
@@ -688,106 +529,7 @@
     display: none;
   }
 
-  /*
-     Sidebar becomes horizontal navigation
-     on small screens.
-  */
 
-  .admin-layout {
-    display: block;
-
-    min-height: auto;
-  }
-
-  .admin-sidebar {
-    padding: 8px 10px;
-
-    border-right: none;
-    border-bottom: 1px solid #e3e5e3;
-  }
-
-  .admin-sidebar-nav {
-    flex-direction: row;
-
-    overflow-x: auto;
-  }
-
-  .admin-sidebar-nav button {
-    width: auto;
-
-    min-width: 95px;
-
-    white-space: nowrap;
-
-    text-align: center;
-  }
-
-  .admin-main {
-    padding: 22px 14px;
-  }
-
-  .admin-page-heading h1 {
-    font-size: 25px;
-  }
-
-  .admin-stat-grid {
-    grid-template-columns: 1fr;
-
-    gap: 10px;
-
-    margin-bottom: 28px;
-  }
-
-  .admin-stat-card {
-    min-height: 95px;
-  }
-
-  .admin-hotel-toolbar {
-    flex-direction: column;
-
-    align-items: stretch;
-
-    gap: 10px;
-  }
-
-  .admin-search-form {
-    width: 100%;
-  }
-
-  .admin-add-btn {
-    width: 100%;
-  }
-
-  .admin-price-filter {
-    display: grid;
-
-    grid-template-columns:
-      1fr 1fr;
-  }
-
-  .admin-price-filter > div {
-    width: auto;
-  }
-
-  .admin-apply-btn,
-  .admin-clear-btn {
-    width: 100%;
-  }
-
-  .admin-table-wrapper {
-    overflow-x: auto;
-  }
-
-  .admin-table {
-    min-width: 600px;
-  }
-
-}
-
-
-/* =========================================================
-   SMALL MOBILE
-========================================================= */
 
 @media (max-width: 420px) {
 

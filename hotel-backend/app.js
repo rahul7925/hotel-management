@@ -11,8 +11,13 @@ app.disable("x-powered-by");
 app.use(helmet({
     crossOriginResourcePolicy: false
 }));
+const allowedOrigins = process.env.FRONTEND_URL
+    ? process.env.FRONTEND_URL.split(",").map(o => o.trim())
+    : "*";
+
 app.use(cors({
-    origin: process.env.FRONTEND_URL || "http://localhost:5173"
+    origin: allowedOrigins,
+    credentials: true
 }));
 app.use(morgan("dev"));
 app.use(express.json());

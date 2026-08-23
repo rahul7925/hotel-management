@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../services/api";
 import { useAuth } from "../context/AuthContext";
+import { getImageUrl } from "../utils/imageUrl";
 import "./Admin.css";
 
 function Admin() {
@@ -23,9 +24,7 @@ function Admin() {
   const [activeSection, setActiveSection] =
     useState("dashboard");
 
-  /* =====================================================
-     FETCH HOTELS
-  ===================================================== */
+
 
   const fetchHotels = async (options = {}) => {
     try {
@@ -90,9 +89,7 @@ function Admin() {
     }
   };
 
-  /* =====================================================
-     FETCH USERS
-  ===================================================== */
+
 
   const fetchUsers = async () => {
     try {
@@ -118,50 +115,9 @@ function Admin() {
     }
   };
 
-  /* =====================================================
-     INITIAL LOAD
-  ===================================================== */
 
-  /* Double-lock back button and tab close protection */
-  useEffect(() => {
-    const handleBeforeUnload = (e) => {
-      e.preventDefault();
-      e.returnValue = "Are you sure you want to leave?";
-    };
-    window.addEventListener("beforeunload", handleBeforeUnload);
 
-    // Push twice so that a single back button press keeps the URL identical.
-    // This prevents React Router from detecting a path change and unmounting the component.
-    window.history.pushState(null, null, window.location.href);
-    window.history.pushState(null, null, window.location.href);
 
-    const handlePopState = () => {
-      const confirmed = window.confirm("Are you sure you want to close this site?\nLog out to close the site.");
-      if (confirmed) {
-        window.removeEventListener("beforeunload", handleBeforeUnload);
-        logout();
-        navigate("/login", { replace: true });
-      } else {
-        // They cancelled. Push state again to restore the buffer.
-        window.history.pushState(null, null, window.location.href);
-      }
-    };
-    
-    window.addEventListener('popstate', handlePopState);
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-      window.removeEventListener('popstate', handlePopState);
-    };
-  }, [logout, navigate]);
-
-  useEffect(() => {
-    fetchHotels();
-    fetchUsers();
-  }, []);
-
-  /* =====================================================
-     SEARCH
-  ===================================================== */
 
   const handleSearch = (event) => {
     event.preventDefault();
@@ -169,9 +125,7 @@ function Admin() {
     fetchHotels();
   };
 
-  /* =====================================================
-     CLEAR FILTERS
-  ===================================================== */
+
 
   const clearFilters = () => {
     setSearch("");
@@ -180,9 +134,7 @@ function Admin() {
     fetchHotels({ clear: true });
   };
 
-  /* =====================================================
-     DELETE HOTEL
-  ===================================================== */
+
 
   const handleDelete = async (hotelId) => {
     const confirmed = window.confirm(
@@ -213,9 +165,7 @@ function Admin() {
     }
   };
 
-  /* =====================================================
-     LOGOUT
-  ===================================================== */
+
 
   const handleLogout = () => {
     const confirmed = window.confirm(
@@ -230,9 +180,7 @@ function Admin() {
     navigate("/login");
   };
 
-  /* =====================================================
-     SIDEBAR - DASHBOARD
-  ===================================================== */
+
 
   const handleDashboardClick = () => {
     setActiveSection("dashboard");
@@ -243,9 +191,7 @@ function Admin() {
     });
   };
 
-  /* =====================================================
-     SIDEBAR - HOTELS
-  ===================================================== */
+
 
   const handleHotelsClick = () => {
     setActiveSection("hotels");
@@ -260,20 +206,10 @@ function Admin() {
     }, 50);
   };
 
-  const getImageUrl = (image) => {
-    if (!image) return "";
-    if (image.startsWith("http://") || image.startsWith("https://")) {
-      return image;
-    }
-    return `http://localhost:5000${image}`;
-  };
-
   return (
     <div className="admin-page">
 
-      {/* =================================================
-          TOP NAVBAR
-      ================================================= */}
+      {}
 
       <header className="admin-navbar">
 
@@ -589,8 +525,8 @@ function Admin() {
                                       }}
                                     />
                                   ) : (
-                                    <div 
-                                      className="admin-hotel-image placeholder" 
+                                    <div
+                                      className="admin-hotel-image placeholder"
                                       style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f1f5f9', fontSize: '10px', color: '#94a3b8', border: '1px dashed #cbd5e1' }}
                                     >
                                       No image

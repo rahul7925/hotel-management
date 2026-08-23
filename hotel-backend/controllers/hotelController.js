@@ -142,7 +142,7 @@ const uploadHotelImage = async (req, res) => {
         if (!req.file) return res.status(400).json({ success: false, message: "No image file provided" });
         const hotel = await pool.query("SELECT * FROM hotels WHERE id = $1", [Number(id)]);
         if (hotel.rows.length === 0) return res.status(404).json({ success: false, message: "Hotel not found" });
-        
+
         const imageUrl = '/uploads/' + req.file.filename;
         const result = await pool.query("UPDATE hotels SET image = $1 WHERE id = $2 RETURNING *", [imageUrl, Number(id)]);
         res.status(200).json({ success: true, message: "Hotel image uploaded successfully", hotel: result.rows[0] });

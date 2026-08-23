@@ -15,15 +15,15 @@ import ProtectedRoute from "./components/ProtectedRoute";
 
 function RootRedirect() {
   const { isAuthenticated, user, loading } = useAuth();
-  
+
   if (loading) return null;
-  
+
   if (isAuthenticated) {
-    return user?.role === "admin" 
-      ? <Navigate to="/admin" replace /> 
+    return user?.role === "admin"
+      ? <Navigate to="/admin" replace />
       : <Navigate to="/hotels" replace />;
   }
-  
+
   return <Navigate to="/login" replace />;
 }
 
@@ -33,7 +33,7 @@ function App() {
       <Route path="/" element={<RootRedirect />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-      
+
       <Route
         path="/hotels"
         element={
@@ -50,7 +50,7 @@ function App() {
           </ProtectedRoute>
         }
       />
-      
+
       <Route
         path="/admin"
         element={
@@ -75,7 +75,7 @@ function App() {
           </ProtectedRoute>
         }
       />
-      
+
       <Route path="/access-denied" element={<AccessDenied />} />
       <Route path="*" element={<NotFound />} />
     </Routes>

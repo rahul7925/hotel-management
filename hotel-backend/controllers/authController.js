@@ -91,7 +91,7 @@ const getUserStats = async (req, res) => {
     try {
         const result = await pool.query("SELECT id, name, email, role, created_at FROM users ORDER BY id DESC");
         const users = result.rows;
-        
+
         res.status(200).json({
             success: true,
             totalUsers: users.length,

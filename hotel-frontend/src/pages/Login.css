@@ -1,6 +1,4 @@
-/* =========================================================
-   HOTEL COLLECTION — LOGIN
-   ========================================================= */
+
 
 .login-page {
   min-height: 100vh;
@@ -21,8 +19,6 @@
     #f7f5f1;
 }
 
-/* ========================= CARD ========================= */
-
 .login-card {
   width: 100%;
   max-width: 430px;
@@ -36,8 +32,6 @@
 
   box-shadow: 0 20px 55px rgba(25, 30, 27, 0.08);
 }
-
-/* ========================= BRAND ========================= */
 
 .login-brand {
   display: flex;
@@ -66,8 +60,6 @@
   letter-spacing: 0.12em;
 }
 
-/* ========================= HEADING ========================= */
-
 .login-heading {
   margin-bottom: 28px;
 }
@@ -87,8 +79,6 @@
   font-size: 14px;
   line-height: 1.5;
 }
-
-/* ========================= FORM ========================= */
 
 .login-form {
   display: flex;
@@ -140,8 +130,6 @@
   box-shadow: 0 0 0 3px rgba(31, 92, 74, 0.09);
 }
 
-/* ========================= ERROR ========================= */
-
 .login-error {
   padding: 11px 13px;
 
@@ -154,8 +142,6 @@
   font-size: 13px;
   line-height: 1.4;
 }
-
-/* ========================= BUTTON ========================= */
 
 .login-button {
   width: 100%;
@@ -194,8 +180,6 @@
   cursor: not-allowed;
 }
 
-/* ========================= REGISTER LINK ========================= */
-
 .login-register {
   display: flex;
   align-items: center;
@@ -218,8 +202,6 @@
   text-decoration: underline;
 }
 
-/* ========================= TABLET ========================= */
-
 @media (max-width: 767px) {
   .login-page {
     padding: 24px 16px;
@@ -230,8 +212,6 @@
     border-radius: 17px;
   }
 }
-
-/* ========================= SMALL MOBILE ========================= */
 
 @media (max-width: 420px) {
   .login-page {

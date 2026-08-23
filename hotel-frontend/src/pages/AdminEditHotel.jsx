@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../services/api";
+import { getImageUrl } from "../utils/imageUrl";
 import "./AdminEditHotel.css";
 
 function AdminEditHotel() {
@@ -28,7 +29,7 @@ function AdminEditHotel() {
       try {
         const response = await api.get(`/hotels/${id}`);
         const hotel = response.data.hotel;
-        
+
         setFormData({
           title: hotel.title || "",
           description: hotel.description || "",
@@ -38,10 +39,7 @@ function AdminEditHotel() {
         });
 
         if (hotel.image) {
-          const imgUrl = hotel.image.startsWith("http")
-            ? hotel.image
-            : `http://localhost:5000${hotel.image}`;
-          setExistingImage(imgUrl);
+          setExistingImage(getImageUrl(hotel.image));
         }
       } catch (err) {
         setError("Failed to load hotel details.");

@@ -1,4 +1,4 @@
-/*HOTELS PAGE — MODERN RESPONSIVE UI */
+
 
 .hotels-page {
   min-height: 100vh;
@@ -12,8 +12,6 @@
   width: min(1200px, 100%);
   margin: 0 auto;
 }
-
-/* HEADER */
 
 .hotels-header {
   margin-bottom: 30px;
@@ -43,8 +41,6 @@
   color: #6b7280;
   font-size: 16px;
 }
-
-/*SEARCH/FILTER */
 
 .hotel-search-container {
   display: flex;
@@ -100,8 +96,6 @@
 .hotel-search button:hover {
   background: #000000;
 }
-
-/*  PRICE FILTER */
 
 .price-filter {
   display: flex;
@@ -165,8 +159,6 @@
   background: #f3f4f6;
 }
 
-/*  RESULT COUNT  */
-
 .hotels-result-count {
   margin: 0 0 18px;
   font-size: 14px;
@@ -174,15 +166,11 @@
   color: #6b7280;
 }
 
-/*  GRID  */
-
 .hotels-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 24px;
 }
-
-/*  CARD  */
 
 .hotel-card {
   display: flex;
@@ -272,8 +260,6 @@
   overflow: hidden;
 }
 
-/*  PRICE  */
-
 .hotel-price {
   margin-top: auto;
   margin-bottom: 16px;
@@ -301,8 +287,6 @@
   color: #6b7280;
   font-size: 12px;
 }
-
-/*  FOOTER */
 
 .hotel-card-footer {
   display: flex;
@@ -333,8 +317,6 @@
   background: #000000;
   transform: translateY(-1px);
 }
-
-/* PAGINATION */
 
 .pagination {
   display: flex;
@@ -388,8 +370,6 @@
   cursor: not-allowed;
 }
 
-/*  EMPTY STATE  */
-
 .hotels-empty {
   padding: 70px 20px;
   background: #ffffff;
@@ -409,8 +389,6 @@
   color: #6b7280;
 }
 
-/*  TABLET 768–1023px  */
-
 @media (max-width: 1023px) {
   .hotels-page {
     padding: 32px 20px 50px;
@@ -425,8 +403,6 @@
     height: 215px;
   }
 }
-
-/*  MOBILE ≤767px */
 
 @media (max-width: 767px) {
   .hotels-page {
@@ -526,8 +502,6 @@
     height: 38px;
   }
 }
-
-/*  SMALL MOBILE ≤380px */
 
 @media (max-width: 380px) {
   .hotels-page {

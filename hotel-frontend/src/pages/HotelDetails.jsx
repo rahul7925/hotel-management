@@ -10,6 +10,7 @@ import L from "leaflet";
 
 import api from "../services/api";
 import Navbar from "../components/Navbar";
+import { getImageUrl } from "../utils/imageUrl";
 
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
@@ -110,11 +111,7 @@ function HotelDetails() {
     ? `https://www.google.com/maps?q=${latitude},${longitude}`
     : "#";
 
-  const imageUrl = hotel.image
-    ? hotel.image.startsWith("http")
-      ? hotel.image
-      : `http://localhost:5000${hotel.image}`
-    : "";
+  const imageUrl = getImageUrl(hotel.image);
 
   return (
     <>

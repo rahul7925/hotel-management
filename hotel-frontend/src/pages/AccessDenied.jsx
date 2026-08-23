@@ -14,7 +14,7 @@ function AccessDenied() {
   return (
     <div className="login-page">
       <div className="login-card" style={{ textAlign: "center" }}>
-        
+
         <div className="login-brand" style={{ justifyContent: "center" }}>
           <span>HOTEL COLLECTION</span>
         </div>
@@ -25,7 +25,7 @@ function AccessDenied() {
           </span>
           <h1 style={{ marginTop: "5px" }}>Access Denied</h1>
           <p style={{ marginTop: "10px", lineHeight: "1.6" }}>
-            You are currently signed in as <strong>{user?.name || "a standard user"}</strong> (<code>{user?.role || "user"}</code>). 
+            You are currently signed in as <strong>{user?.name || "a standard user"}</strong> (<code>{user?.role || "user"}</code>).
             This area requires <strong>Admin</strong> privileges.
           </p>
         </div>

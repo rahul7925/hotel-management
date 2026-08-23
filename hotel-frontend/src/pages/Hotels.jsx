@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../services/api";
 import { useAuth } from "../context/AuthContext";
+import { getImageUrl } from "../utils/imageUrl";
 
 const ITEMS_PER_PAGE = 5;
 
@@ -33,7 +34,7 @@ function Hotels() {
         window.history.pushState(null, null, window.location.href);
       }
     };
-    
+
     window.addEventListener('popstate', handlePopState);
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
@@ -185,19 +186,6 @@ function Hotels() {
     setShowFilters(false);
 
     fetchHotels(1);
-  };
-
-  const getImageUrl = (image) => {
-    if (!image) return "";
-
-    if (
-      image.startsWith("http://") ||
-      image.startsWith("https://")
-    ) {
-      return image;
-    }
-
-    return `http://localhost:5000${image}`;
   };
 
   if (error) {
